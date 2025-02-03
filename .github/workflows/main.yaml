@@ -31,8 +31,8 @@ jobs:
       - name: Pull and Recreate Container
         uses: appleboy/ssh-action@v1.2.0
         with:
-            host: ${{ envs.REMOTE_HOST }}
-            username: ${{ secrets.REMOTE_USER }}
+            host: ${{ env.REMOTE_HOST }}
+            username: ${{ env.REMOTE_USER }}
             key: ${{ secrets.SSH_KEY }}
             script: docker compose -f /opt/webui/docker-compose.yaml pull openwebui && docker compose -f /opt/webui/docker-compose.yaml up -d --force-recreate openwebui
       - name: Slack Notification

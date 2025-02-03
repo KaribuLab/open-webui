@@ -6,7 +6,7 @@ on:
       - "main"
 
 jobs:
-  deploy:
+  build_push:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -28,6 +28,19 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/openwebui
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: karibu-labs-it
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_ICON: https://img.icons8.com/ios-filled/50/github.png
+          SLACK_MESSAGE: "New version of Open WebUI https://hub.docker.com/repository/docker/karibu/openwebui/general :rocket:"
+          SLACK_TITLE: New image version of Open WebUI
+          SLACK_USERNAME: github-actions
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
       - name: Pull and Recreate Container
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -41,7 +54,7 @@ jobs:
           SLACK_CHANNEL: karibu-labs-it
           SLACK_COLOR: ${{ job.status }}
           SLACK_ICON: https://img.icons8.com/ios-filled/50/github.png
-          SLACK_MESSAGE: "New version of Open WebUI https://hub.docker.com/repository/docker/karibu/openwebui/general :rocket:"
-          SLACK_TITLE: New image version of Open WebUI
+          SLACK_MESSAGE: "Deploy Open WebUI https://hub.docker.com/repository/docker/karibu/openwebui/general :rocket:"
+          SLACK_TITLE: New deploy of Open WebUI
           SLACK_USERNAME: github-actions
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}

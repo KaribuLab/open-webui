@@ -34,7 +34,7 @@ jobs:
             host: ${{ secrets.REMOTE_HOST }}
             username: ${{ secrets.REMOTE_USER }}
             key: ${{ secrets.SSH_KEY }}
-            script: docker compose -f /opt/webui/docker-compose.yaml pull openwebui && docker compose -f /opt/webui/docker-compose.yaml up -d --force-recreate openwebui
+            script: docker compose -f /opt/webui/docker-compose.yaml pull webui && docker compose -f /opt/webui/docker-compose.yaml up -d --force-recreate webui
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
         env:
